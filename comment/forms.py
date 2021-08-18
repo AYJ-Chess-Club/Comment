@@ -1,15 +1,14 @@
 from django import forms
-from martor.fields import MartorFormField
 from comment.models import Comment
 from comment.conf import settings
 from comment.messages import EmailInfo
-
+from martor.widgets import MartorWidget
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('content',)
-        widgets = {'content': MartorFormField(attrs={'rows': 1})}
+        widgets = {'content': MartorWidget()}
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
