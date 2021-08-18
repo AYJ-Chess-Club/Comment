@@ -2,15 +2,12 @@
 {% load i18n %}
 
 <div id="{{ comment.urlhash }}" class="js-updated-comment {% if comment.has_flagged_state %}flagged-comment {% endif %}{% block content_wrapper_cls %}{% if has_valid_profile %}col-9 col-md-10{% else %}co-11 mx-3{% endif %}{% endblock content_wrapper_cls %}" >
-    {% block comment_content %}
-    {% render_content comment %}
-    {% endblock comment_content %}
     {% get_username_for_comment comment as username %}
     <div class="{% block footer_wrapper_cls %}mt-2 text-muted{% endblock footer_wrapper_cls %}">
         <small>
-            {% get_profile_url comment as profile_url %}
+            {% url "show-profile" comment.user as profile_url %}
             <{% if comment.user %}a{% else %}span{% endif %}
-                class="{% block username_cls %}{% endblock username_cls %}" {% if profile_url %}href="{{ profile_url }}"{% endif %}
+                class="text-decoration-none {% block username_cls %}{% endblock username_cls %}" {% if profile_url %}href="{{ profile_url }}"{% endif %}
                 title="{% if comment.user %}{% blocktrans %}view {{ username }} profile{% endblocktrans %}{% else %}{% trans 'comment by anonymous user' %}{% endif %}"
             >
                 {{ username }}
@@ -18,7 +15,7 @@
             {% if comment.is_edited %}
                 <span class="font-italic" title="{% trans 'Edited' %}">{% blocktrans with edited_time=comment.edited|timesince %}Edited: {{ edited_time }} ago{% endblocktrans %}</span>
             {% else %}
-                <span class="font-italic" title="{% trans 'Posted' %}">{% blocktrans with posted_time=comment.posted|timesince %}{{ posted_time }} ago{% endblocktrans %}</span>
+                <span class="font-italic" title="{% trans 'Posted' %}">{% blocktrans with posted_time=comment.posted|timesince %}Posted: {{ posted_time }} ago{% endblocktrans %}</span>
             {% endif %}
             {% can_delete_comment comment user as can_delete %}
             {% if comment.user == user %}
@@ -36,6 +33,10 @@
             {% if user|can_block_users %}
                 {% include 'comment/block/block_icon.html' %}
             {% endif %}
+            |
+            {% block comment_urlhash %}
+                {% include "comment/comments/urlhash.html" with urlhash=urlhash %}
+            {% endblock comment_urlhash %}
             {% if comment.is_parent %}
                 {% get_replies_count comment user as reply_count %}
                 | <span class="js-reply-number {% block reply_count_cls %}text-dark{% endblock reply_count_cls %}">{{ reply_count }}</span>
@@ -49,6 +50,9 @@
                 {% endif %}
             {% endif %}
         </small>
+        {% block comment_content %}
+            {% render_content comment %}
+        {% endblock comment_content %}
         {% include "comment/reactions/reactions.html" with comment=comment %}
     </div>
 </div>

@@ -2,7 +2,7 @@
 <div class="js-comment-reactions mt-2">
     <span class="js-like-number text-dark">{{ comment.likes }}</span>
     {% url 'comment:react' pk=comment.id reaction='like' as like_url %}
-    <a title="{% trans "like" %}" class="{% block like_link_cls %} {% endblock like_link_cls %}
+    <a title="{% trans "like" %}" class="text-decoration-none {% block like_link_cls %} {% endblock like_link_cls %}
         {% if user.is_authenticated %}
         js-comment-reaction" href="{{ like_url }}"
         {% else %}
