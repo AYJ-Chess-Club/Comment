@@ -8,7 +8,7 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('content',)
-        widgets = {'content': MartorWidget()}
+        widgets = {'content': MartorWidget}
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
