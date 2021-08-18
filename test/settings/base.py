@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'user_profile.apps.AccountsConfig',
     'rest_framework',
+    "martor",
 ]
 
 MIDDLEWARE = [
