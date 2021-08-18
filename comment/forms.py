@@ -2,13 +2,13 @@ from django import forms
 from comment.models import Comment
 from comment.conf import settings
 from comment.messages import EmailInfo
-from martor.widgets import MartorWidget
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('content',)
-        widgets = {'content': MartorWidget}
+        widgets = {'content':forms.Textarea(attrs={"class": "form-control"})}
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
