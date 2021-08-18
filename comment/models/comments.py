@@ -1,5 +1,5 @@
 from math import ceil
-from martor.fields import MartorFormField
+from martor.models import MartorField
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -18,7 +18,7 @@ class Comment(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    content = models.TextField()
+    content = MartorField()
     urlhash = models.CharField(
         max_length=50,
         unique=True,
