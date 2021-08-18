@@ -1,5 +1,5 @@
 from django import forms
-
+from martor.fields import MartorFormField
 from comment.models import Comment
 from comment.conf import settings
 from comment.messages import EmailInfo
@@ -9,7 +9,7 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('content',)
-        widgets = {'content': forms.Textarea(attrs={'rows': 1})}
+        widgets = {'content': MartorFormField(attrs={'rows': 1})}
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
